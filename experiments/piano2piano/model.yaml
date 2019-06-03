@@ -1,0 +1,80 @@
+random_seed: 42
+
+input_encoding:
+  class: !!python/name:museflow.encodings.PianoRollEncoding
+  binarize: True
+  sampling_frequency: 4  # 4 samples per beat  (tempo is forced to 60 BPM)
+output_encoding:
+  class: !!python/name:museflow.encodings.PerformanceEncoding
+  use_velocity: False
+  time_unit: 0.08333333333333333  # 1/12 of a beat  (tempo is forced to 60 BPM)
+  max_shift_units: 24  # half note
+  use_all_off_event: True
+
+model:
+  2d_layers:
+    - class: !!python/name:tensorflow.layers.Conv2D
+      filters: 32
+      kernel_size: [12,12]
+      padding: same
+      activation: !!python/name:tensorflow.nn.elu
+    - class: !!python/name:tensorflow.layers.MaxPooling2D
+      pool_size: [2,2]
+      strides: [2,2]
+    - class: !!python/name:tensorflow.layers.Conv2D
+      filters: 32
+      kernel_size: [4,4]
+      padding: same
+      activation: !!python/name:tensorflow.nn.elu
+    - class: !!python/name:tensorflow.layers.MaxPooling2D
+      pool_size: [2,4]
+      strides: [2,4]
+  encoder:
+    forward_cell:
+      num_units: 256
+    backward_cell:
+      num_units: 256
+  embedding_layer:
+    output_size: 200
+  style_embedding_layer:
+    output_size: 16
+  attention_mechanism:
+    class: !!python/name:tensorflow.contrib.seq2seq.BahdanauAttention
+    num_units: 300
+  decoder:
+    cell:
+      num_units: 1024
+    max_length: 600
+
+  training:
+    lr_decay:
+      class: !!python/name:tensorflow.train.exponential_decay
+      learning_rate: 1.0e-3
+      decay_steps: 6000
+      decay_rate: 0.5
+    max_gradient_norm: 0.01
+
+trainer:
+  logging_period: 25
+  validation_period: 250
+evaluation_period: 1000
+
+train_data:
+  src:
+    - data_70styles/Piano/[0-4]?.pickle
+    - data_70styles/Piano/5[0-4].pickle
+  tgt:
+    - data_70styles/Piano/[0-4]?.pickle
+    - data_70styles/Piano/5[0-4].pickle
+val_data:
+  src:
+    - data_70styles/Piano/55.pickle
+  tgt:
+    - data_70styles/Piano/55.pickle
+style_list: data_70styles/styles
+
+data_prep:
+  num_epochs: 4
+  train_batch_size: 64
+  val_batch_size: 128
+  shuffle_buffer_size: 100000
