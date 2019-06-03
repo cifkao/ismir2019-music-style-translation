@@ -2,7 +2,7 @@ coloredlogs==10.0
 Cython==0.29
 matplotlib==3.0.2
 mido==1.2.9
-museflow @ git+https://github.com/cifkao/museflow@45d8e8fd7fc03f7a95faba7b0e8ed13a6f0c8db4
+museflow @ git+https://github.com/cifkao/museflow@c14f94ac096743d5a7a83afccfa098853b9c97e9
 numpy==1.14.5
 pandas==0.24.1
 pretty-midi==0.2.8
