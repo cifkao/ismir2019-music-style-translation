@@ -24,28 +24,70 @@ dependencies:
   - pip:
     - absl-py==0.7.1
     - astor==0.8.0
+    - attrs==19.1.0
+    - backcall==0.1.0
+    - bleach==3.1.0
     - cached-property==1.5.1
     - coloredlogs==10.0
     - cycler==0.10.0
     - cython==0.29
+    - decorator==4.4.0
+    - defusedxml==0.6.0
+    - entrypoints==0.3
     - gast==0.2.2
     - grpcio==1.21.1
     - humanfriendly==4.18
+    - ipykernel==5.1.1
+    - ipython==7.5.0
+    - ipython-genutils==0.2.0
+    - ipywidgets==7.4.2
+    - jedi==0.13.3
+    - jinja2==2.10.1
+    - jsonschema==3.0.1
+    - jupyter==1.0.0
+    - jupyter-client==5.2.4
+    - jupyter-console==6.0.0
+    - jupyter-core==4.4.0
     - kiwisolver==1.1.0
     - markdown==3.1.1
+    - markupsafe==1.1.1
     - matplotlib==3.0.2
     - mido==1.2.9
+    - mistune==0.8.4
+    - nbconvert==5.5.0
+    - nbformat==4.4.0
+    - notebook==5.7.8
     - numpy==1.14.5
     - pandas==0.24.1
+    - pandocfilters==1.4.2
+    - parso==0.4.0
+    - pexpect==4.7.0
+    - pickleshare==0.7.5
     - pretty-midi==0.2.8
+    - prometheus-client==0.6.0
+    - prompt-toolkit==2.0.9
     - protobuf==3.8.0
+    - ptyprocess==0.6.0
+    - pygments==2.4.2
     - pyparsing==2.4.0
+    - pyrsistent==0.15.2
     - python-dateutil==2.8.0
     - pytz==2019.1
     - pyyaml==5.1
+    - pyzmq==18.0.1
+    - qtconsole==4.5.1
+    - scikit-learn==0.20.1
     - scipy==1.2.0
+    - send2trash==1.5.0
     - six==1.12.0
     - tensorboard==1.10.0
     - tensorflow-gpu==1.10.0
     - termcolor==1.1.0
+    - terminado==0.8.2
+    - testpath==0.4.2
+    - tornado==6.0.2
+    - traitlets==4.3.2
+    - wcwidth==0.1.7
+    - webencodings==0.5.1
     - werkzeug==0.15.4
+    - widgetsnbextension==3.4.2
