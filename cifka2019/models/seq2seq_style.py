@@ -174,7 +174,7 @@ def _init(cfg, logdir, train_mode, **kwargs):
 
 
 def _train(model, trainer, encoding, style_vocabulary, config, args):
-    shutil.copy2(__file__, args.logdir)
+    logger.info("Starting training.")
     trainer.train()
 
 

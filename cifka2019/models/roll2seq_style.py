@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 import argparse
-import collections
 import json
 import os
 import pickle
 
 import coloredlogs
 import numpy as np
-import scipy.spatial.distance as scipy_distance
 import tensorflow as tf
 
 from museflow import logger
@@ -195,51 +193,8 @@ class TranslationExperiment:
                 output_shapes=self.input_shapes)
 
     def train(self, args):
-        val_inputs, val_target_styles, val_targets = zip(
-            *self._cfg['val_data'].configure(load_data, encode=False, **self._load_data_kwargs)())
-
-        style_profiles = {}
-        if 'style_profiles_dir' in self._cfg:
-            for style in set(val_target_styles):
-                profiles_path = os.path.join(self._cfg.get('style_profiles_dir'), f'{style}.json')
-                with open(profiles_path) as f:
-                    style_profiles[style] = {k: np.array(v) for k, v in json.load(f).items()}
-
         logger.info("Starting training.")
-        for state in self.trainer.iter_train(period=self._cfg.get('evaluation_period', 0)):
-            if state.step == 0:
-                continue
-
-            for mode in ['greedy', 'sample']:
-                # Run model on validation data
-                output_ids = self.model.run(self.trainer.session, 'val', sample=(mode == 'sample'))
-                outputs = [self.output_encoding.decode(seq) for seq in output_ids]
-                assert len(outputs) == len(val_inputs)
-
-                # Compute cosine similarity of chroma features
-                similarity = np.mean([
-                    chroma_similarity(a, b, sampling_rate=12, window_size=24, stride=12)
-                    for a, b in zip(val_inputs, outputs)])
-                self.trainer.write_scalar_summary(f'val/{mode}/chroma_similarity', similarity)
-
-                # Compute cosine similarity of style profiles
-                if style_profiles:
-                    outputs_by_style = collections.defaultdict(list)
-                    for output_notes, style in zip(outputs, val_target_styles):
-                        outputs_by_style[style].append(output_notes)
-                    for max_time in [2, 4]:
-                        distances = []
-                        for style in outputs_by_style:
-                            out_profile = time_pitch_diff_hist(
-                                outputs_by_style[style],
-                                max_time=max_time, bin_size=1/6, pitch_range=20)
-                            ref_profile = (
-                                style_profiles[style][f'time_pitch_diff_hist_t{max_time}_f6'])
-                            distance = scipy_distance.cosine(out_profile.reshape(-1),
-                                                             ref_profile.reshape(-1))
-                            distances.append(distance if not np.isnan(distance) else 0.)
-                        self.trainer.write_scalar_summary(
-                            f'val/{mode}/style_similarity_t{max_time}', 1. - np.mean(distances))
+        self.trainer.train()
 
     def run(self, args):
         self.trainer.load_variables(checkpoint_file=args.checkpoint)
