@@ -16,10 +16,10 @@ from museflow.nn.rnn import InputWrapper
 from museflow.trainer import BasicTrainer
 from museflow.vocabulary import Vocabulary
 
-from cifka2019 import logger
-from cifka2019.eval.notes_chroma_similarity import chroma_similarity
-from cifka2019.eval.style_profile import time_pitch_diff_hist
 from cifka2019.models.common import load_data
+
+
+LOGGER = logging.getLogger('cifka2019')
 
 
 @configurable(['embedding_layer', 'style_embedding_layer', 'style_projection', '2d_layers',
@@ -47,9 +47,9 @@ class CNNRNNSeq2Seq:
 
             # 2D layers: 4 -> 4 dimensions
             for layer in layers_2d:
-                logger.debug(f'Inputs to layer {layer} have shape {features.shape}')
+                LOGGER.debug(f'Inputs to layer {layer} have shape {features.shape}')
                 features = self._apply_layer(layer, features)
-            logger.debug(f'After the 2D layers, the features have shape {features.shape}')
+            LOGGER.debug(f'After the 2D layers, the features have shape {features.shape}')
 
             # Features have shape [batch_size, rows, time, channels]. Switch rows and cols, then
             # flatten rows and channels to get 3 dimensions: [batch_size, time, new_channels].
@@ -59,7 +59,7 @@ class CNNRNNSeq2Seq:
 
         # 1D layers: 3 -> 3 dimensions: [batch_size, time, channels]
         for layer in layers_1d:
-            logger.debug(f'Inputs to layer {layer} have shape {features.shape}')
+            LOGGER.debug(f'Inputs to layer {layer} have shape {features.shape}')
             features = self._apply_layer(layer, features)
 
         encoder = self._cfg['encoder'].configure(RNNLayer,
@@ -193,7 +193,7 @@ class TranslationExperiment:
                 output_shapes=self.input_shapes)
 
     def train(self, args):
-        logger.info("Starting training.")
+        LOGGER.info('Starting training.')
         self.trainer.train()
 
     def run(self, args):
@@ -243,7 +243,7 @@ def main():
     config_file = os.path.join(args.logdir, 'model.yaml')
     with open(config_file, 'rb') as f:
         config = Configuration.from_yaml(f)
-    logger.debug(config)
+    LOGGER.debug(config)
 
     experiment = config.configure(TranslationExperiment,
                                   logdir=args.logdir, train_mode=args.train_mode)

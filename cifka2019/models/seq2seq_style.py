@@ -16,8 +16,10 @@ from museflow.nn.rnn import InputWrapper
 from museflow.trainer import BasicTrainer
 from museflow.vocabulary import Vocabulary
 
-from cifka2019 import logger
 from cifka2019.models.common import load_data
+
+
+LOGGER = logging.getLogger('cifka2019')
 
 
 @configurable(['embedding_layer', 'style_embedding_layer', 'encoder', 'state_projection',
@@ -128,7 +130,7 @@ def main():
     config_file = os.path.join(args.logdir, 'model.yaml')
     with open(config_file, 'rb') as f:
         config = Configuration.from_yaml(f)
-    logger.debug(config)
+    LOGGER.debug(config)
 
     model, trainer, encoding, style_vocabulary = config.configure(
         _init, logdir=args.logdir, train_mode=args.train_mode)
@@ -172,7 +174,7 @@ def _init(cfg, logdir, train_mode, **kwargs):
 
 
 def _train(model, trainer, encoding, style_vocabulary, config, args):
-    logger.info("Starting training.")
+    LOGGER.info('Starting training.')
     trainer.train()
 
 
