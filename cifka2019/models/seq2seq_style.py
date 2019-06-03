@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 import argparse
-import collections
-import glob
+import logging
 import os
 import pickle
-import shutil
 
 import coloredlogs
 import numpy as np
 import tensorflow as tf
 
-from museflow import logger
 from museflow.components import EmbeddingLayer, RNNLayer, RNNDecoder
 from museflow.config import Configuration, configurable
 from museflow.model_utils import (DatasetManager, create_train_op, prepare_train_and_val_data,
@@ -19,6 +16,7 @@ from museflow.nn.rnn import InputWrapper
 from museflow.trainer import BasicTrainer
 from museflow.vocabulary import Vocabulary
 
+from cifka2019 import logger
 from cifka2019.models.common import load_data
 
 
@@ -202,5 +200,5 @@ def _run(model, trainer, encoding, style_vocabulary, config, args):
 
 
 if __name__ == '__main__':
-    coloredlogs.install(level='DEBUG', logger=logger, isatty=True)
+    coloredlogs.install(level='DEBUG', logger=logging.getLogger(), isatty=True)
     main()
