@@ -4,6 +4,7 @@ This is the code for the paper "Supervised symbolic music style translation usin
 The repository contains the following directories:
 - `cifka2019` – code for training and evaluating models.
 - `experiments` – configuration files for the models from the paper.
+- `data` – data preparation scripts.
 
 ## Installation
 
