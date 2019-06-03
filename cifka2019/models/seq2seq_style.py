@@ -19,6 +19,8 @@ from museflow.nn.rnn import InputWrapper
 from museflow.trainer import BasicTrainer
 from museflow.vocabulary import Vocabulary
 
+from cifka2019.models.common import load_data
+
 
 @configurable(['embedding_layer', 'style_embedding_layer', 'encoder', 'state_projection',
                'decoder', 'attention_mechanism', 'training'])
@@ -155,16 +157,16 @@ def _init(cfg, logdir, train_mode, **kwargs):
 
     if train_mode:
         # Configure the dataset manager with the training and validation data.
+        load_data_kwargs = dict(input_encoding=encoding,
+                                output_encoding=encoding,
+                                style_vocabulary=style_vocabulary)
         cfg['data_prep'].configure(
             prepare_train_and_val_data,
             dataset_manager=model.dataset_manager,
             train_generator=cfg['train_data'].configure(
-                _load_data,
-                encoding=encoding, style_vocabulary=style_vocabulary, config=cfg,
-                log=True, limit_length=True),
+                load_data, log=True, **load_data_kwargs),
             val_generator=cfg['val_data'].configure(
-                _load_data,
-                encoding=encoding, style_vocabulary=style_vocabulary, config=cfg),
+                load_data, **load_data_kwargs),
             output_types=(tf.int32, tf.int32, tf.int32, tf.int32),
             output_shapes=([None], [], [None], [None]))
 
@@ -197,67 +199,6 @@ def _run(model, trainer, encoding, style_vocabulary, config, args):
               for seq, (segment_id, _) in zip(output_ids, data)]
 
     pickle.dump(output, args.output_file)
-
-
-def _load_data(paths, encoding, style_vocabulary, config, log=False, limit_length=False):
-    if isinstance(paths, str):
-        paths = [paths]
-
-    def glob_paths(patterns):
-        paths = [path
-                 for pattern in patterns
-                 for path in sorted(glob.glob(pattern, recursive=True))]
-        if not paths:
-            raise RuntimeError(f'Pattern list {patterns} did not match any paths.')
-        return paths
-
-    def get_pairs(data):
-        # data is a list of tuples (segment_id, notes).
-        # segment_id is a tuple (song_and_style, start, end).
-        # song_and_style consists of the song name and the style, separated by a dot.
-        data_defaultdict = collections.defaultdict(list)
-        keys = []
-        for (song_and_style, start, end), val in data:
-            song_name, style = song_and_style.rsplit('.', maxsplit=1)
-            new_key = (song_name, start, end)
-            keys.append(new_key)
-            data_defaultdict[new_key].append((style, val))
-        data = dict(data_defaultdict)
-
-        for key in keys:
-            for src_style, src_notes in data[key]:
-                if limit_length and len(src_notes) > config.get('max_src_notes', np.inf):
-                    logger.warning(f'Skipping source segment {key}, {src_style} with '
-                                   f'{len(src_notes)} source notes')
-                    continue
-
-                for tgt_style, tgt_notes in data[key]:
-                    if tgt_style == src_style:
-                        continue
-                    if limit_length and len(tgt_notes) > config.get('max_tgt_notes', np.inf):
-                        logger.warning(f'Skipping target segment {key}, {tgt_style} with '
-                                       f'{len(tgt_notes)} notes')
-                        continue
-
-                    src_ids = encoding.encode(src_notes, add_start=False, add_end=False)
-                    tgt_ids = encoding.encode(tgt_notes, add_start=True, add_end=True)
-                    tgt_style_id = style_vocabulary.to_id(tgt_style)
-                    yield src_ids, tgt_style_id, tgt_ids[:-1], tgt_ids[1:]
-
-    def generator():
-        i = 0
-        for path in glob_paths(paths):
-            if log:
-                logger.debug(f'Reading from {path}')
-            with open(path, 'rb') as f:
-                data = pickle.load(f)
-            for item in get_pairs(data):
-                i += 1
-                yield item
-        if log:
-            logger.info('Done loading data ({} examples)'.format(i))
-
-    return generator
 
 
 if __name__ == '__main__':

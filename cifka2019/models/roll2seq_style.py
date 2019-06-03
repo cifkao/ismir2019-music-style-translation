@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import collections
-import glob
 import json
 import os
 import pickle
@@ -22,6 +21,7 @@ from museflow.vocabulary import Vocabulary
 
 from cifka2019.eval.notes_chroma_similarity import chroma_similarity
 from cifka2019.eval.style_profile import time_pitch_diff_hist
+from cifka2019.models.common import load_data
 
 
 @configurable(['embedding_layer', 'style_embedding_layer', 'style_projection', '2d_layers',
@@ -156,7 +156,8 @@ class TranslationExperiment:
         self.output_encoding = self._cfg['output_encoding'].configure()
         with open(self._cfg.get('style_list')) as f:
             style_list = [line.rstrip('\n') for line in f]
-        self.style_vocabulary = Vocabulary(style_list, pad_token=None, start_token=None, end_token=None)
+        self.style_vocabulary = Vocabulary(
+            style_list, pad_token=None, start_token=None, end_token=None)
 
         input_dtype = self._cfg.get('input_dtype', tf.float32)
         num_rows = getattr(self.input_encoding, 'num_rows', None)
@@ -177,20 +178,25 @@ class TranslationExperiment:
                                                       logdir=logdir,
                                                       write_summaries=train_mode)
 
+        self._load_data_kwargs = dict(input_encoding=self.input_encoding,
+                                      output_encoding=self.output_encoding,
+                                      style_vocabulary=self.style_vocabulary)
+
         if train_mode:
             # Configure the dataset manager with the training and validation data.
             self._cfg['data_prep'].configure(
                 prepare_train_and_val_data,
                 dataset_manager=self.dataset_manager,
-                train_generator=self._cfg['train_data'].configure(self._load_data,
-                                                                  log=True, limit_length=True),
-                val_generator=self._cfg['val_data'].configure(self._load_data),
+                train_generator=self._cfg['train_data'].configure(
+                    load_data, log=True, **self._load_data_kwargs),
+                val_generator=self._cfg['val_data'].configure(
+                    load_data, **self._load_data_kwargs),
                 output_types=self.input_types,
                 output_shapes=self.input_shapes)
 
     def train(self, args):
         val_inputs, val_target_styles, val_targets = zip(
-            *self._cfg['val_data'].configure(self._load_data, encode=False)())
+            *self._cfg['val_data'].configure(load_data, encode=False, **self._load_data_kwargs)())
 
         style_profiles = {}
         if 'style_profiles_dir' in self._cfg:
@@ -251,91 +257,12 @@ class TranslationExperiment:
             output_shapes=self.input_shapes,
             batch_size=args.batch_size)
 
-        output_ids = self.model.run(self.trainer.session, dataset, args.sample, args.softmax_temperature)
+        output_ids = self.model.run(
+            self.trainer.session, dataset, args.sample, args.softmax_temperature)
         outputs = [(segment_id, self.output_encoding.decode(seq))
                    for seq, (segment_id, _) in zip(output_ids, data)]
 
         pickle.dump(outputs, args.output_file)
-
-    def _load_data(self, paths=None, src=None, tgt=None, log=False, encode=True, limit_length=False):
-        if paths is not None:
-            src, tgt = paths, paths
-        del paths
-        if isinstance(src, str):
-            src = [src]
-        if isinstance(tgt, str):
-            tgt = [tgt]
-
-        def glob_paths(patterns):
-            paths = [path
-                     for pattern in patterns
-                     for path in sorted(glob.glob(pattern, recursive=True))]
-            if not paths:
-                raise RuntimeError(f'Pattern list {patterns} did not match any paths.')
-            return paths
-
-        def make_data_dict(data):
-            # data is a list of tuples (segment_id, notes).
-            # segment_id is a tuple (song_and_style, start, end).
-            # song_and_style consists of the song name and the style, separated by a dot.
-            keys = []
-            data_defaultdict = collections.defaultdict(list)
-            for (song_and_style, start, end), val in data:
-                song_name, style = song_and_style.rsplit('.', maxsplit=1)
-                new_key = (song_name, start, end)
-                data_defaultdict[new_key].append((style, val))
-                keys.append(new_key)
-            return dict(data_defaultdict), keys
-
-        def get_pairs(src_data, tgt_data):
-            src_data, keys = make_data_dict(src_data)
-            tgt_data, _ = make_data_dict(tgt_data)
-
-            for key in keys:
-                for src_style, src_notes in src_data[key]:
-                    if limit_length and len(src_notes) > self._cfg.get('max_src_notes', np.inf):
-                        logger.warning(f'Skipping source segment {key}, {src_style} with '
-                                       f'{len(src_notes)} source notes')
-                        continue
-
-                    try:
-                        tgt_segments = tgt_data[key]
-                    except KeyError as e:
-                        logger.warning(f'KeyError: {e}')
-                        continue
-
-                    for tgt_style, tgt_notes in tgt_segments:
-                        if tgt_style == src_style:
-                            continue
-                        if limit_length and len(tgt_notes) > self._cfg.get('max_tgt_notes', np.inf):
-                            logger.warning(f'Skipping target segment {key}, {tgt_style} with '
-                                           f'{len(tgt_notes)} notes')
-                            continue
-
-                        if encode:
-                            src_ids = self.input_encoding.encode(src_notes)
-                            tgt_ids = self.output_encoding.encode(tgt_notes, add_start=True, add_end=True)
-                            tgt_style_id = self.style_vocabulary.to_id(tgt_style)
-                            yield src_ids, tgt_style_id, tgt_ids[:-1], tgt_ids[1:]
-                        else:
-                            yield src_notes, tgt_style, tgt_notes
-
-        def generator():
-            i = 0
-            for src_path, tgt_path in zip(glob_paths(src), glob_paths(tgt)):
-                if log:
-                    logger.debug(f'Reading from {src_path}, {tgt_path}')
-                with open(src_path, 'rb') as f:
-                    src_data = pickle.load(f)
-                with open(tgt_path, 'rb') as f:
-                    tgt_data = pickle.load(f)
-                for item in get_pairs(src_data, tgt_data):
-                    i += 1
-                    yield item
-            if log:
-                logger.info('Done loading data ({} examples)'.format(i))
-
-        return generator
 
 
 def main():
