@@ -25,7 +25,6 @@ from museflow.vocabulary import Vocabulary
 class RNNSeq2Seq:
 
     def __init__(self, train_mode, vocabulary, style_vocabulary, sampling_seed=None):
-        self._cfg = _LegacyConfiguration(self._cfg)
         self._train_mode = train_mode
         self._is_training = tf.placeholder_with_default(False, [], name='is_training')
 
@@ -36,33 +35,33 @@ class RNNSeq2Seq:
         inputs, self.style_id, decoder_inputs, decoder_targets = self.dataset_manager.get_batch()
         batch_size = tf.shape(inputs)[0]
 
-        embeddings = self._cfg.configure('embedding_layer', EmbeddingLayer,
-                                         input_size=len(vocabulary))
-        encoder = self._cfg.configure('encoder', RNNLayer,
-                                      training=self._is_training,
-                                      name='encoder')
+        embeddings = self._cfg['embedding_layer'].configure(EmbeddingLayer,
+                                                            input_size=len(vocabulary))
+        encoder = self._cfg['encoder'].configure(RNNLayer,
+                                                 training=self._is_training,
+                                                 name='encoder')
         encoder_states, encoder_final_state = encoder.apply(embeddings.embed(inputs))
 
-        style_embeddings = self._cfg.configure('style_embedding_layer', EmbeddingLayer,
-                                               input_size=len(style_vocabulary),
-                                               name='style_embedding')
+        style_embeddings = self._cfg['style_embedding_layer'].configure(
+            EmbeddingLayer, input_size=len(style_vocabulary), name='style_embedding')
         self.style_vector = style_embeddings.embed(self.style_id)
+
         def cell_wrap_fn(cell):
             """Wrap the RNN cell in order to pass the style embedding as input."""
             return InputWrapper(cell, input_fn=lambda _: self.style_vector)
 
         with tf.variable_scope('attention'):
-            attention = self._cfg.maybe_configure('attention_mechanism', memory=encoder_states)
-        decoder = self._cfg.configure('decoder', RNNDecoder,
-                                      vocabulary=vocabulary,
-                                      embedding_layer=embeddings,
-                                      attention_mechanism=attention,
-                                      cell_wrap_fn=cell_wrap_fn,
-                                      training=self._is_training)
+            attention = self._cfg['attention_mechanism'].maybe_configure(memory=encoder_states)
+        decoder = self._cfg['decoder'].configure(RNNDecoder,
+                                                 vocabulary=vocabulary,
+                                                 embedding_layer=embeddings,
+                                                 attention_mechanism=attention,
+                                                 cell_wrap_fn=cell_wrap_fn,
+                                                 training=self._is_training)
 
-        state_projection = self._cfg.configure('state_projection', tf.layers.Dense,
-                                               units=decoder.initial_state_size,
-                                               name='state_projection')
+        state_projection = self._cfg['state_projection'].configure(tf.layers.Dense,
+                                                                   units=decoder.initial_state_size,
+                                                                   name='state_projection')
         decoder_initial_state = state_projection(encoder_final_state)
 
         # Build the training version of the decoder and the training ops
@@ -84,7 +83,7 @@ class RNNSeq2Seq:
                                                 batch_size=batch_size)
 
     def _make_train_ops(self):
-        train_op = self._cfg.configure('training', create_train_op, loss=self.loss)
+        train_op = self._cfg['training'].configure(create_train_op, loss=self.loss)
         init_op = tf.global_variables_initializer()
 
         tf.summary.scalar('train/loss', self.loss)
@@ -259,20 +258,6 @@ def _load_data(paths, encoding, style_vocabulary, config, log=False, limit_lengt
             logger.info('Done loading data ({} examples)'.format(i))
 
     return generator
-
-
-class _LegacyConfiguration:
-
-    def __init__(self, cfg):
-        self.cfg = cfg
-
-    def configure(self, *args, **kwargs):
-        key, *args = args
-        return self.cfg[key].configure(*args, **kwargs)
-
-    def maybe_configure(self, *args, **kwargs):
-        key, *args = args
-        return self.cfg[key].maybe_configure(*args, **kwargs)
 
 
 if __name__ == '__main__':
