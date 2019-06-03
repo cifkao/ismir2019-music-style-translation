@@ -1,8 +1,10 @@
 import collections
 import glob
+import logging
 import pickle
 
-from museflow import logger
+
+LOGGER = logging.getLogger('cifka2019')
 
 
 def load_data(input_encoding, output_encoding, style_vocabulary,
@@ -45,7 +47,7 @@ def load_data(input_encoding, output_encoding, style_vocabulary,
                 try:
                     tgt_segments = tgt_data[key]
                 except KeyError as e:
-                    logger.warning(f'KeyError: {e}')
+                    LOGGER.warning(f'KeyError: {e}')
                     continue
 
                 for tgt_style, tgt_notes in tgt_segments:
@@ -64,7 +66,7 @@ def load_data(input_encoding, output_encoding, style_vocabulary,
         i = 0
         for src_path, tgt_path in zip(glob_paths(src), glob_paths(tgt)):
             if log:
-                logger.debug(f'Reading from {src_path}, {tgt_path}')
+                LOGGER.debug(f'Reading from {src_path}, {tgt_path}')
             with open(src_path, 'rb') as f:
                 src_data = pickle.load(f)
             with open(tgt_path, 'rb') as f:
@@ -73,6 +75,6 @@ def load_data(input_encoding, output_encoding, style_vocabulary,
                 i += 1
                 yield item
         if log:
-            logger.info('Done loading data ({} examples)'.format(i))
+            LOGGER.info('Done loading data ({} examples)'.format(i))
 
     return generator
