@@ -2,25 +2,25 @@ name: cifka2019
 channels:
   - defaults
 dependencies:
-  - ca-certificates=2019.1.23=0
-  - certifi=2019.3.9=py36_0
-  - cudatoolkit=9.0=h13b8566_0
-  - cudnn=7.3.1=cuda9.0_0
-  - libedit=3.1.20181209=hc058e9b_0
-  - libffi=3.2.1=hd88cf55_4
-  - libgcc-ng=8.2.0=hdf63c60_1
-  - libstdcxx-ng=8.2.0=hdf63c60_1
-  - ncurses=6.1=he6710b0_1
-  - openssl=1.1.1c=h7b6447c_1
-  - pip=19.1.1=py36_0
-  - python=3.6.8=h0371630_0
-  - readline=7.0=h7b6447c_5
-  - setuptools=41.0.1=py36_0
-  - sqlite=3.28.0=h7b6447c_0
-  - tk=8.6.8=hbc83047_0
-  - wheel=0.33.4=py36_0
-  - xz=5.2.4=h14c3975_4
-  - zlib=1.2.11=h7b6447c_3
+  - ca-certificates=2019.1.23
+  - certifi=2019.3.9
+  - cudatoolkit=9.0
+  - cudnn=7.3.1
+  - libedit=3.1.20181209
+  - libffi=3.2.1
+  - libgcc-ng=8.2.0
+  - libstdcxx-ng=8.2.0
+  - ncurses=6.1
+  - openssl=1.1.1c
+  - pip=19.1.1
+  - python=3.6.8
+  - readline=7.0
+  - setuptools=39.1.0
+  - sqlite=3.28.0
+  - tk=8.6.8
+  - wheel=0.33.4
+  - xz=5.2.4
+  - zlib=1.2.11
   - pip:
     - absl-py==0.7.1
     - astor==0.8.0
