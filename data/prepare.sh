@@ -49,7 +49,7 @@ dir=03_sharded
   else
     log "shards.tsv not provided, sharding randomly"
     find 02_filtered -name '*.mid' -printf '%f\n' | sed -r 's/\.[^.]+\.[0-9]+\.mid$//' | sort -u >"$dir/songs"
-    seq -w 0 $n_shards | shuf -r -n $(wc -l <"$dir/songs") | paste "$dir/songs" - >"$dir/shards.tsv"
+    seq -w 0 $((n_shards-1)) | shuf -r -n $(wc -l <"$dir/songs") | paste "$dir/songs" - >"$dir/shards.tsv"
   fi
 
   while IFS=$'\t' read -r name shard; do
