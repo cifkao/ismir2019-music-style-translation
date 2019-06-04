@@ -14,7 +14,7 @@ depending on your setup):
 1. Filter the files to keep only those that are entirely in 4/4 or 12/8 time. You may skip this step by putting your files
    in `02_filtered` directly.
    
-2. Distribute the files into numbered subfolders (00 to 59 by default) called ‘shards’. This is done according to the file
+2. Distribute the files into numbered subfolders (00 to 59 by default) called ‘shards’. This is controlled by the file
    `shards.tsv`, which maps song names to shard numbers. If you are using a different set of songs, you can remove or rename
    this file and your songs will be distributed randomly.
 
