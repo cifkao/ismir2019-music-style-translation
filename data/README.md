@@ -17,8 +17,6 @@ depending on your setup):
 2. Distribute the files into numbered subfolders (00 to 59 by default) called ‘shards’. This is done according to the file
    `shards.tsv`, which maps song names to shard numbers. If you are using a different set of songs, you can remove or rename
    this file and your songs will be distributed randomly.
-   
-   In the paper, we used shards 00–54 for training, 55 for validation and 56 for testing.
 
 3. Normalize the tempo to 60 BPM, extract the notes of each accompaniment track and chop them into 8-bar segments. The result
    is a pickle file for each shard containing all the segments of a given accompaniment track (e.g. `Bass/00.pickle`).
