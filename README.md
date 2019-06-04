@@ -4,7 +4,7 @@ This is the code for the paper "Supervised symbolic music style translation usin
 The repository contains the following directories:
 - `cifka2019` – code for training and evaluating models.
 - `experiments` – configuration files for the models from the paper.
-- `data` – data preparation scripts.
+- `data` – data preparation pipeline.
 
 ## Installation
 
@@ -27,3 +27,9 @@ Clone the repository and make sure you have Python 3.6 or later. Then run the fo
    ```sh
    pip install .
    ```
+
+## Data
+
+See the [data README](data/README.md) for how to prepare the data.
+
+The data for each track is stored in numbered pickle files. In the paper, we used files 00–54 for training, 55 for validation and 56 for testing.
