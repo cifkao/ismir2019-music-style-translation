@@ -32,4 +32,24 @@ Clone the repository and make sure you have Python 3.6 or later. Then run the fo
 
 See the [data README](data/README.md) for how to prepare the data.
 
-The data for each track is stored in numbered pickle files. In the paper, we used files 00–54 for training, 55 for validation and 56 for testing.
+The data for each instrument track is stored in numbered pickle files. In the paper, we used files 00–54 for training, 55 for validation and 56 for testing.
+
+## Training a model
+
+The scripts for training the models are in the `cifka2019.models` package.
+
+The `experiments` directory contains a subdirectory for each model from the paper. For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
+```sh
+python -m cifka2019.models.roll2seq --logdir all2bass train
+```
+This will train the model using the `model.yaml` configuration file located in the model directory.
+
+## Running a model
+
+To use the trained model, run the same command as for training, but with `run` instead of `train`. You need to provide three additional arguments: the input file, the output file and the target style. For example:
+```sh
+python -m cifka2019.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
+```
+
+
+## Evaluation
