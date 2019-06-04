@@ -46,10 +46,18 @@ This will train the model using the `model.yaml` configuration file located in t
 
 ## Running a model
 
-To use the trained model, run the same command as for training, but with `run` instead of `train`. You need to provide three additional arguments: the input file, the output file and the target style. For example:
+To use a trained model, run the same command as for training, but with `run` instead of `train`. You need to provide three additional arguments: the input file, the output file and the target style. For example:
 ```sh
 python -m cifka2019.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
 ```
-
+To listen to the outputs, we need to convert them to MIDI files. This is an extra step that involves stretching the time from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
+```sh
+python -m cifka2019.data.notes2midi \
+   --instrument 'Fretless Bass' \
+   --stretch 60:115 \
+   --group-by-name \
+   --time-unit 4 \
+   output.pickle outputs
+```
 
 ## Evaluation
