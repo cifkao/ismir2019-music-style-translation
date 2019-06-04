@@ -111,24 +111,33 @@ def normalize_tempo(midi, new_tempo=60):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_files', nargs='+', metavar='FILE')
-    parser.add_argument('output_file', type=argparse.FileType('wb'), metavar='OUTPUTFILE')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('input_files', nargs='+', metavar='FILE', help='input MIDI files')
+    parser.add_argument('output_file', type=argparse.FileType('wb'), metavar='OUTPUTFILE',
+                        help='output pickle file')
 
-    parser.add_argument('-i', '--instrument-re', type=str, default='.*')
+    parser.add_argument('-i', '--instrument-re', type=str, default='.*', metavar='REGEXP',
+                        help='select only tracks matching this regular expression')
     parser.add_argument('-p', '--program', type=lambda l: [int(x) for x in l.split(',')],
-                        default=None)
+                        default=None,
+                        help='select only the given MIDI program numbers (comma-separated list)')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--drums', action='store_true')
-    group.add_argument('--no-drums', action='store_false', dest='drums')
+    group.add_argument('--drums', action='store_true', help='select only drum tracks')
+    group.add_argument('--no-drums', action='store_false', dest='drums', help='exclude drum tracks')
     group.set_defaults(drums=None)
 
-    parser.add_argument('-b', '--bars-per-segment', type=lambda l: [int(x) for x in l.split(',')],
-                        default=[8])
-    parser.add_argument('-n', '--min-notes-per-segment', type=int, default=1)
-    parser.add_argument('-t', '--force-tempo', type=float, default=None)
-    parser.add_argument('--skip-bars', type=int, default=0)
-    parser.add_argument('--include-segment-id', action='store_true')
+    parser.add_argument('-b', '--bars-per-segment', metavar='COUNT',
+                        type=lambda l: [int(x) for x in l.split(',')],
+                        default=[8], help='the desired segment length in bars')
+    parser.add_argument('-n', '--min-notes-per-segment', type=int, default=1, metavar='COUNT',
+                        help='drop segments with fewer notes than the given value; default: 1')
+    parser.add_argument('-t', '--force-tempo', type=float, default=None, metavar='BPM',
+                        help='normalize the tempo to the given value')
+    parser.add_argument('--skip-bars', type=int, default=0, metavar='COUNT',
+                        help='skip the given number of initial bars')
+    parser.add_argument('--include-segment-id', action='store_true',
+                        help='save each segment as a tuple containing the segment ID and a list of '
+                             'notes; if not provided, only the note list is stored')
     args = parser.parse_args()
 
     output = list(chop_midi(files=args.input_files,
