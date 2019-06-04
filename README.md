@@ -1,5 +1,5 @@
 # Supervised symbolic music style translation
-This is the code for the paper "Supervised symbolic music style translation using synthetic data".
+This is the code for the paper ‘Supervised symbolic music style translation using synthetic data’.
 
 The repository contains the following directories:
 - `cifka2019` – code for training and evaluating models.
