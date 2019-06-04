@@ -137,7 +137,7 @@ def main():
                         help='skip the given number of initial bars')
     parser.add_argument('--include-segment-id', action='store_true',
                         help='save each segment as a tuple containing the segment ID and a list of '
-                             'notes; if not provided, only the note list is stored')
+                             'notes; without this option, only the note list is stored')
     args = parser.parse_args()
 
     output = list(chop_midi(files=args.input_files,
