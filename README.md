@@ -61,3 +61,6 @@ python -m ismir2019_cifka.data.notes2midi \
 ```
 
 ## Evaluation
+
+## Acknowledgment
+This work has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. 765068.
