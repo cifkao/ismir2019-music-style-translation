@@ -4,8 +4,7 @@ First, install the package by following the steps in the [main README](../README
 
 Put your MIDI files in `01_src` or edit the `prepare.sh` script to make the `src_dir` variable point to their location.
 The filenames must have the form `{song}.{style}.{number}.mid`, e.g. `Autumn Leaves.ZZJAZZ.00.mid`. Note that `number`
-must be a two-digit number (e.g. 00) and `style` must not contain a period. There should be at least two different
-styles for each song.
+must be a two-digit number (e.g. 00) and `style` must not contain a period. Each song should be present in at least two different styles, otherwise training pairs cannot be formed.
 The files need to have correct time signature and tempo information so that they can be split on downbeats.
 
 Once your files are in place, run `./prepare.sh`. This will perform the following steps (you might want to tweak them
