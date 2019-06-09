@@ -1,6 +1,6 @@
 # Data preparation
 
-First, install the package by following the steps in the [main README](../README.md).
+First, install the package by following the steps in the [main README](../README.md#installation).
 
 Put your MIDI files in `01_src` or edit the `prepare.sh` script to make the `src_dir` variable point to their location.
 The filenames must have the form `{song}.{style}.{number}.mid`, e.g. `Autumn Leaves.ZZJAZZ.00.mid`. Note that `number`
