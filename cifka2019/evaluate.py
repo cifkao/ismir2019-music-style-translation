@@ -13,8 +13,8 @@ import numpy as np
 import pandas as pd
 import sklearn.metrics.pairwise
 
-from cifka2019.eval.style_profile import time_pitch_diff_hist
-from cifka2019.eval.notes_chroma_similarity import chroma_similarity
+from ismir2019_cifka.eval.style_profile import time_pitch_diff_hist
+from ismir2019_cifka.eval.notes_chroma_similarity import chroma_similarity
 
 
 CHROMA_SIMILARITY_PARAMS = dict(sampling_rate=12, window_size=24, stride=12, use_velocity=False)

@@ -16,10 +16,10 @@ from museflow.nn.rnn import InputWrapper
 from museflow.trainer import BasicTrainer
 from museflow.vocabulary import Vocabulary
 
-from cifka2019.models.common import load_data
+from ismir2019_cifka.models.common import load_data
 
 
-LOGGER = logging.getLogger('cifka2019')
+LOGGER = logging.getLogger('ismir2019_cifka')
 
 
 @configurable(['embedding_layer', 'style_embedding_layer', 'encoder', 'state_projection',

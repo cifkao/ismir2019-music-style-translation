@@ -4,7 +4,7 @@ import logging
 import pickle
 
 
-LOGGER = logging.getLogger('cifka2019')
+LOGGER = logging.getLogger('ismir2019_cifka')
 
 
 def load_data(input_encoding, output_encoding, style_vocabulary,

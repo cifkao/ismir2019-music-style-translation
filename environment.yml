@@ -1,4 +1,4 @@
-name: cifka2019
+name: ismir2019_cifka
 channels:
   - defaults
 dependencies:

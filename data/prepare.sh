@@ -33,7 +33,7 @@ dir=02_filtered
     find -L "$src_dir" -type f -not -name '*.mid' >&2
   fi
 
-  python -m cifka2019.data.filter_4beats "$src_dir"/*.mid | while read f; do
+  python -m ismir2019_cifka.data.filter_4beats "$src_dir"/*.mid | while read f; do
     log_progress "$(basename "$f")"
     ln "$f" "$dir/$(basename "$f")" || die
   done || die
@@ -68,7 +68,7 @@ dir=04_chopped
     for instr in Drums Bass Piano; do
       mkdir -p "$dir/$instr"
       log_progress $instr/$shard
-      python -m cifka2019.data.chop_midi \
+      python -m ismir2019_cifka.data.chop_midi \
           --instrument-re "^BB $instr$" \
           --skip-bars 2 \
           --bars-per-segment 8 \
@@ -80,13 +80,13 @@ dir=04_chopped
 
       # The segment ID contains the entire file path. We need to adjust it to have only the
       # song name and the style (i.e. the filename without the .mid extension and the number).
-      python -m cifka2019.data.adjust_segment_ids --strip-dirs --strip-exts 2 "$dir/$instr/$shard.pickle" || die
+      python -m ismir2019_cifka.data.adjust_segment_ids --strip-dirs --strip-exts 2 "$dir/$instr/$shard.pickle" || die
     done
 
     instr=all_except_drums
     mkdir -p "$dir/$instr"
     log_progress $instr/$shard
-    python -m cifka2019.data.chop_midi \
+    python -m ismir2019_cifka.data.chop_midi \
         --instrument-re "^BB (Bass|Piano|Guitar|Strings)$" \
         --skip-bars 2 \
         --bars-per-segment 8 \
@@ -96,7 +96,7 @@ dir=04_chopped
         03_sharded/$shard/*.mid "$dir/$instr/$shard.pickle" \
         || die
 
-    python -m cifka2019.data.adjust_segment_ids --strip-dirs --strip-exts 2 "$dir/$instr/$shard.pickle" || die
+    python -m ismir2019_cifka.data.adjust_segment_ids --strip-dirs --strip-exts 2 "$dir/$instr/$shard.pickle" || die
   done
   log
 }

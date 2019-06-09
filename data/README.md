@@ -22,4 +22,4 @@ depending on your setup):
    is a pickle file for each shard containing all the segments of a given accompaniment track (e.g. `Bass/00.pickle`).
 
    The tracks are matched based on their name, but you can also use the program number.
-   Run `python -m cifka2019.data.chop_midi -h` to see the available options.
+   Run `python -m ismir2019_cifka.data.chop_midi -h` to see the available options.

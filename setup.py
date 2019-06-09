@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name='cifka2019',
+    name='ismir2019_cifka',
     author='Ondřej Cífka',
     description='The code for the paper "Supervised symbolic music style translation using synthetic data"',
     url='https://github.com/cifkao/music-style-translation',

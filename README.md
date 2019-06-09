@@ -1,8 +1,8 @@
 # Supervised symbolic music style translation
-This is the code for the paper ‘Supervised symbolic music style translation using synthetic data’.
+This is the code for the paper ‘Supervised symbolic music style translation using synthetic data’, accepted to ISMIR 2019.
 
 The repository contains the following directories:
-- `cifka2019` – code for training and evaluating models.
+- `ismir2019_cifka` – code for training and evaluating models.
 - `experiments` – configuration files for the models from the paper.
 - `data` – data preparation pipeline.
 
@@ -36,11 +36,11 @@ The data for each instrument track is stored in numbered pickle files. In the pa
 
 ## Training a model
 
-The scripts for training the models are in the `cifka2019.models` package.
+The scripts for training the models are in the `ismir2019_cifka.models` package.
 
 The `experiments` directory contains a subdirectory for each model from the paper. For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
 ```sh
-python -m cifka2019.models.roll2seq --logdir all2bass train
+python -m ismir2019_cifka.models.roll2seq --logdir all2bass train
 ```
 This will train the model using the `model.yaml` configuration file located in the model directory.
 
@@ -48,11 +48,11 @@ This will train the model using the `model.yaml` configuration file located in t
 
 To use a trained model, run the same command as for training, but with `run` instead of `train`. You need to provide three additional arguments: the input file, the output file and the target style. For example:
 ```sh
-python -m cifka2019.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
+python -m ismir2019_cifka.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
 ```
-To listen to the outputs, we need to convert them to MIDI files. This is an extra step that involves stretching the time from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
+To listen to the outputs, we need to convert them to MIDI files. This is an extra step that involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
 ```sh
-python -m cifka2019.data.notes2midi \
+python -m ismir2019_cifka.data.notes2midi \
    --instrument 'Fretless Bass' \
    --stretch 60:115 \
    --group-by-name \

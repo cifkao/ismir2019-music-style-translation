@@ -11,7 +11,7 @@ import pretty_midi
 
 
 MIN_DURATION = 1e-5  # Most likely below MIDI resolution
-LOGGER = logging.getLogger('cifka2019')
+LOGGER = logging.getLogger('ismir2019_cifka')
 
 
 def chop_midi(files, bars_per_segment, instrument_re=None, programs=None, drums=None,
