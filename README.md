@@ -57,7 +57,7 @@ python -m ismir2019_cifka.data.chop_midi \
 ```
 Then, we `run` the model, providing the input file, the output file and the target style. For example:
 ```sh
-python -m ismir2019_cifka.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
+python -m ismir2019_cifka.models.roll2seq --logdir all2bass run songs.pickle output.pickle ZZREGGAE
 ```
 To listen to the outputs, we need to convert them back to MIDI files, which involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
 ```sh
