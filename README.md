@@ -46,7 +46,7 @@ This will train the model using the `model.yaml` configuration file located in t
 
 ## Running a model
 
-Before running a trained model on some MIDI files, we need to use the `chop_midi` script to convert them to the expected format, e.g.:
+Before running a trained model on some MIDI files, we need to use the `chop_midi` script to chop them up into segments and save them in the expected format, e.g.:
 ```sh
 python -m ismir2019_cifka.data.chop_midi \
     --no-drums \
