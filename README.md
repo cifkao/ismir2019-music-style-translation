@@ -4,7 +4,7 @@ This is the code for the paper ‘Supervised symbolic music style translation us
 The repository contains the following directories:
 - `ismir2019_cifka` – code for training and evaluating models.
 - `experiments` – configuration files for the models from the paper.
-- `data` – data preparation pipeline.
+- `data` – data preparation recipes.
 
 ## Installation
 
@@ -46,11 +46,21 @@ This will train the model using the `model.yaml` configuration file located in t
 
 ## Running a model
 
-To use a trained model, run the same command as for training, but with `run` instead of `train`. You need to provide three additional arguments: the input file, the output file and the target style. For example:
+Before running a trained model on some MIDI files, we need to use the `chop_midi` script to convert them to the expected format, e.g.:
+```sh
+python -m ismir2019_cifka.data.chop_midi \
+    --no-drums \
+    --force-tempo 60 \
+    --bars-per-segment 8 \
+    --include-segment-id \
+    song1.mid song2.mid songs.pickle
+```
+
+To use a trained model, run the same command as for training, but with `run` instead of `train`. We need to provide three additional arguments: the input file, the output file and the target style. For example:
 ```sh
 python -m ismir2019_cifka.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
 ```
-To listen to the outputs, we need to convert them to MIDI files. This is an extra step that involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
+To listen to the outputs, we need to convert them back to MIDI files. This is an extra step that involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
 ```sh
 python -m ismir2019_cifka.data.notes2midi \
    --instrument 'Fretless Bass' \
