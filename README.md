@@ -55,8 +55,7 @@ python -m ismir2019_cifka.data.chop_midi \
     --include-segment-id \
     song1.mid song2.mid songs.pickle
 ```
-
-To use a trained model, run the same command as for training, but with `run` instead of `train`. We need to provide three additional arguments: the input file, the output file and the target style. For example:
+Then, we `run` the model, providing the input file, the output file and the target style. For example:
 ```sh
 python -m ismir2019_cifka.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
 ```
