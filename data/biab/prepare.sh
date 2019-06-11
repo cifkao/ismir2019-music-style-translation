@@ -103,8 +103,6 @@ dir=04_chopped
 
 [[ -d "$dir" ]] || die
 
-chmod -R -w "$dir" || die
-
 log Done.
 
 exit 0
