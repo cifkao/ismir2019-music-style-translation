@@ -59,7 +59,7 @@ Then, we `run` the model, providing the input file, the output file and the targ
 ```sh
 python -m ismir2019_cifka.models.roll2seq --logdir all2bass run input.pickle output.pickle ZZREGGAE
 ```
-To listen to the outputs, we need to convert them back to MIDI files. This is an extra step that involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
+To listen to the outputs, we need to convert them back to MIDI files, which involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
 ```sh
 python -m ismir2019_cifka.data.notes2midi \
    --instrument 'Fretless Bass' \
