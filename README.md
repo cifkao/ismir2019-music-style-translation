@@ -55,7 +55,7 @@ python -m ismir2019_cifka.data.chop_midi \
     --include-segment-id \
     song1.mid song2.mid songs.pickle
 ```
-Then, we `run` the model, providing the input file, the output file and the target style. For example:
+Then we can `run` the model, providing the input file, the output file and the target style. For example:
 ```sh
 python -m ismir2019_cifka.models.roll2seq --logdir all2bass run songs.pickle output.pickle ZZREGGAE
 ```
