@@ -157,10 +157,8 @@ class TranslationExperiment:
         self.style_vocabulary = Vocabulary(
             style_list, pad_token=None, start_token=None, end_token=None)
 
-        input_dtype = self._cfg.get('input_dtype', tf.float32)
-        num_rows = getattr(self.input_encoding, 'num_rows', None)
-        self.input_shapes = (([num_rows, None] if num_rows else [None]), [], [None], [None])
-        self.input_types = (input_dtype, tf.int32, tf.int32, tf.int32)
+        self.input_shapes = ([self.input_encoding.num_rows, None], [], [None], [None])
+        self.input_types = (tf.float32, tf.int32, tf.int32, tf.int32)
         self.dataset_manager = DatasetManager(
             output_types=self.input_types,
             output_shapes=tuple([None, *shape] for shape in self.input_shapes))
