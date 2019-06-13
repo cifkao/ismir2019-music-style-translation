@@ -32,8 +32,6 @@ Clone the repository and make sure you have Python 3.6 or later. Then run the fo
 
 See the [data README](data/README.md) for how to prepare the data.
 
-The data for each instrument track is stored in numbered pickle files. In the paper, we used files 00–54 for training, 55 for validation and 56 for testing.
-
 ## Training a model
 
 The scripts for training the models are in the `ismir2019_cifka.models` package.
