@@ -3,8 +3,10 @@ This is the code for the paper ‘Supervised symbolic music style translation us
 
 The repository contains the following directories:
 - `ismir2019_cifka` – code for training and evaluating models.
-- `experiments` – configuration files for the models from the paper and a script to download the trained models.
+- `experiments` – configuration files for the models from the paper and a script to download the trained model checkpoints.
 - `data` – data preparation recipes.
+
+You can either download the trained models (by running `./get_models.sh` in the `experiments` directory), or train your own by following the steps below.
 
 ## Installation
 
@@ -40,6 +42,7 @@ The `experiments` directory has a subdirectory for each model from the paper. Th
 ```sh
 python -m ismir2019_cifka.models.roll2seq_style --logdir all2bass train
 ```
+You may need to adjust the paths in `model.yaml` to point to your dataset.
 
 ## Running a model
 
