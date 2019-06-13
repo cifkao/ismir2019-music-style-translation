@@ -1,3 +1,5 @@
+# model: ismir2019_cifka.models.roll2seq_style
+
 random_seed: 42
 
 input_encoding:
