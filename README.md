@@ -38,11 +38,10 @@ The data for each instrument track is stored in numbered pickle files. In the pa
 
 The scripts for training the models are in the `ismir2019_cifka.models` package.
 
-The `experiments` directory contains a subdirectory for each model from the paper. For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
+The `experiments` directory has a subdirectory for each model from the paper. The `model.yaml` file in each directory contains all the hyperparameters and other settings required to train and use the model; the first line also tells you which script to use it with.  For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
 ```sh
-python -m ismir2019_cifka.models.roll2seq --logdir all2bass train
+python -m ismir2019_cifka.models.roll2seq_style --logdir all2bass train
 ```
-This will train the model using the `model.yaml` configuration file located in the model directory.
 
 ## Running a model
 
