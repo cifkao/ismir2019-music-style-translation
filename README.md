@@ -38,7 +38,7 @@ The data for each instrument track is stored in numbered pickle files. In the pa
 
 The scripts for training the models are in the `ismir2019_cifka.models` package.
 
-The `experiments` directory has a subdirectory for each model from the paper. The `model.yaml` file in each directory contains all the hyperparameters and other settings required to train and use the model; the first line also tells you which script to use it with.  For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
+The `experiments` directory has a subdirectory for each model from the paper. The `model.yaml` file in each directory contains all the hyperparameters and other settings required to train and use the model; the first line also tells you what type of model it is (i.e. `seq2seq_style` or `roll2seq_style`).  For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
 ```sh
 python -m ismir2019_cifka.models.roll2seq_style --logdir all2bass train
 ```
@@ -56,7 +56,7 @@ python -m ismir2019_cifka.data.chop_midi \
 ```
 Then we can `run` the model, providing the input file, the output file and the target style. For example:
 ```sh
-python -m ismir2019_cifka.models.roll2seq --logdir all2bass run songs.pickle output.pickle ZZREGGAE
+python -m ismir2019_cifka.models.roll2seq_style --logdir all2bass run songs.pickle output.pickle ZZREGGAE
 ```
 To listen to the outputs, we need to convert them back to MIDI files, which involves time-stretching the music from 60 BPM to the desired tempo, assigning an instrument, and concatenating the segments of each song:
 ```sh
