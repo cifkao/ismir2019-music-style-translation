@@ -3,7 +3,7 @@ This is the code for the paper ‘Supervised symbolic music style translation us
 
 The repository contains the following directories:
 - `ismir2019_cifka` – code for training and evaluating models.
-- `experiments` – configuration files for the models from the paper.
+- `experiments` – configuration files for the models from the paper and a script to download the trained models.
 - `data` – data preparation recipes.
 
 ## Installation
