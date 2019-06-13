@@ -90,44 +90,21 @@ mkdir "$dir" && {
   log
 }
 
-# Categorize the files by genre
-dir=04_by_genre
+# Chop the files into 8-bar segments, store them as note lists
+dir=04_chopped
 mkdir "$dir" && {
   for instr in drums bass piano piano_organ all_except_drums; do
-    cat recordings_key.tsv | while IFS=$'\t' read -r fname song artist genre; do
-      fname="$(echo "$fname" | sed -r 's/\.mid/.mid/i')"
-      mkdir -p "$dir/$instr/$genre" "$dir/$instr/__all__"
-      log_progress "$instr/$genre/$fname"
-      if [[ -e "03_separated/$instr/$fname" ]]; then
-        ln "03_separated/$instr/$fname" "$dir/$instr/$genre/$fname"
-        ln "03_separated/$instr/$fname" "$dir/$instr/__all__/$fname"
-      fi
-    done
-    log
-    log "Linked $(find "$dir/$instr/__all__" -name '*.mid' | wc -l) files to $dir/$instr/__all__"
-  done
-}
+    log_progress $instr
 
-# Chop the files into 8-bar segments, store them as note lists
-dir=05_chopped
-mkdir "$dir" && {
-  { echo __all__; cat recordings_key.tsv | cut -f 4 | sort -u; } | while read -r genre; do
-    for instr in drums bass piano piano_organ all_except_drums; do
-      mkdir -p "$dir/$instr"
-      log_progress $instr/$genre
+    python -m ismir2019_cifka.data.chop_midi \
+        --bars-per-segment 8 \
+        --min-notes-per-segment 1 \
+        --force-tempo 60 \
+        --include-segment-id \
+        "03_separated/$instr"/*.mid "$dir/$instr.pickle" \
+        || die
 
-      if find "04_by_genre/$instr/$genre" -name '*.mid' -print -quit | grep -q .; then
-      python -m ismir2019_cifka.data.chop_midi \
-          --bars-per-segment 8 \
-          --min-notes-per-segment 1 \
-          --force-tempo 60 \
-          --include-segment-id \
-	        "04_by_genre/$instr/$genre"/*.mid "$dir/$instr/$genre.pickle" \
-	        || die
-
-        python -m ismir2019_cifka.data.adjust_segment_ids --strip-dirs --strip-exts 1 "$dir/$instr/$genre.pickle" || die
-      fi
-    done
+    python -m ismir2019_cifka.data.adjust_segment_ids --strip-dirs --strip-exts 1 "$dir/$instr.pickle" || die
   done
   log
 }
