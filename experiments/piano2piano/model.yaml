@@ -63,17 +63,17 @@ evaluation_period: 1000
 
 train_data:
   src:
-    - ../data/04_chopped/Piano/[0-4]?.pickle
-    - ../data/04_chopped/Piano/5[0-4].pickle
+    - ../data/parallel/04_chopped/Piano/[0-4]?.pickle
+    - ../data/parallel/04_chopped/Piano/5[0-4].pickle
   tgt:
-    - ../data/04_chopped/Piano/[0-4]?.pickle
-    - ../data/04_chopped/Piano/5[0-4].pickle
+    - ../data/parallel/04_chopped/Piano/[0-4]?.pickle
+    - ../data/parallel/04_chopped/Piano/5[0-4].pickle
 val_data:
   src:
-    - ../data/04_chopped/Piano/55.pickle
+    - ../data/parallel/04_chopped/Piano/55.pickle
   tgt:
-    - ../data/04_chopped/Piano/55.pickle
-style_list: ../data/styles
+    - ../data/parallel/04_chopped/Piano/55.pickle
+style_list: ../data/parallel/styles
 
 data_prep:
   num_epochs: 4

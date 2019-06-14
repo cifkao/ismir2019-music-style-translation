@@ -40,12 +40,12 @@ trainer:
 
 train_data:
   paths:
-    - ../data/04_chopped/Bass/[0-4]?.pickle
-    - ../data/04_chopped/Bass/5[0-4].pickle
+    - ../data/parallel/04_chopped/Bass/[0-4]?.pickle
+    - ../data/parallel/04_chopped/Bass/5[0-4].pickle
 val_data:
   paths:
-    - ../data/04_chopped/Bass/55.pickle
-style_list: ../data/styles
+    - ../data/parallel/04_chopped/Bass/55.pickle
+style_list: ../data/parallel/styles
 data_prep:
   num_epochs: 8
   train_batch_size: 64
