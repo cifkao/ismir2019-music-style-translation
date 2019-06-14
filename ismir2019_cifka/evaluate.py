@@ -38,7 +38,7 @@ def main():
     parser.add_argument('--data-prefix', type=str, required=True, metavar='PREFIX',
                         help='the prefix for the pickle filename containing the model outputs, '
                              'relative to the model directory; will be suffixed with STYLE.pickle')
-    parser.add_argument('--instrument', type=str, required=True,
+    parser.add_argument('--instrument', type=str,
                         help='the instrument, e.g. Bass, Piano')
     parser.add_argument('--source', type=str, required=True, metavar='FILE',
                         help='the file containing the source track segments (for computing the '
@@ -76,6 +76,9 @@ def main():
     chroma_eval2.evaluate('source', sources, None)
 
     if args.reference_dir:
+        if not args.instrument:
+            raise ValueError('Instrument not specified.')
+
         sources_no_style = [((name.rsplit('.', maxsplit=1)[0], start, end), notes)
                             for (name, start, end), notes in sources]
         keys, values = (list(x) for x in zip(*sources_no_style))
