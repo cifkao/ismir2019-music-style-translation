@@ -249,5 +249,6 @@ def main():
 
 
 if __name__ == '__main__':
-    coloredlogs.install(level='DEBUG', logger=logging.getLogger(), isatty=True)
+    coloredlogs.install(level='DEBUG', logger=logging.root, isatty=True)
+    logging.getLogger('tensorflow').handlers.clear()
     main()
