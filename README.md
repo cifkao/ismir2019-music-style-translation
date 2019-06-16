@@ -2,9 +2,9 @@
 This is the code for the paper ‘Supervised symbolic music style translation using synthetic data’, accepted to ISMIR 2019.
 
 The repository contains the following directories:
-- `ismir2019_cifka` – code for training and evaluating models.
-- `experiments` – configuration files for the models from the paper and a script to download the trained model checkpoints.
-- `data` – data preparation recipes.
+- `ismir2019_cifka` – code for training and evaluating models
+- `experiments` – configuration files for the models from the paper
+- `data` – data preparation recipes
 
 You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below.
 
@@ -38,7 +38,7 @@ See the [data README](data/README.md) for how to prepare the data.
 
 The scripts for training the models are in the `ismir2019_cifka.models` package.
 
-The `experiments` directory has a subdirectory for each model from the paper. The `model.yaml` file in each directory contains all the hyperparameters and other settings required to train and use the model; the first line also tells you what type of model it is (i.e. `seq2seq_style` or `roll2seq_style`).  For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
+The [`experiments`](experiments) directory has a subdirectory for each model from the paper. The `model.yaml` file in each directory contains all the hyperparameters and other settings required to train and use the model; the first line also tells you what type of model it is (i.e. `seq2seq_style` or `roll2seq_style`).  For example, to train the `all2bass` model, run the following command inside the `experiments` directory:
 ```sh
 python -m ismir2019_cifka.models.roll2seq_style --logdir all2bass train
 ```
@@ -71,9 +71,9 @@ python -m ismir2019_cifka.data.notes2midi \
 
 ## Evaluation
 
-To reproduce the results on the Bodhidharma dataset, first [download the trained models](https://doi.org/10.5281/zenodo.3245374) and [prepare the dataset](data/README.md), then change to the `experiments` directory and run `./evaluate_bodhidharma.sh`. Note that this will run each model many times on the entire dataset (once for each target style), so you might want to start with only a subset of the models or styles or run a number of them in parallel. The results will be stored in the `results` subdirectory; use the `evaluation.ipynb` Jupyter notebook to load and plot them.
+To reproduce the results on the Bodhidharma dataset, first [download the trained models](https://doi.org/10.5281/zenodo.3245374) and [prepare the dataset](data/README.md), then change to the `experiments` directory and run `./evaluate_bodhidharma.sh`. Note that this will run each model many times on the entire dataset (once for each target style), so you might want to start with only a subset of the models or styles or run a number of them in parallel. The results will be stored in the `results` subdirectory; use the [`evaluation.ipynb`](experiments/evaluation.ipynb) Jupyter notebook to load and plot them.
 
-To compute the metrics on your own data, use `python -m ismir2019_cifka.evaluate` directly. To better understand all the parameters, look at how they are used in `evaluate_bodhidharma.sh`. The tricky ones are:
+To compute the metrics on your own data, use `python -m ismir2019_cifka.evaluate` directly. To better understand all the parameters, look at how they are used in [`evaluate_bodhidharma.sh`](experiments/evaluate_bodhidharma.sh). The tricky ones are:
 
 * `--data-prefix`: where to look for the model outputs inside the model directory; for example, if you pass `--data-prefix outputs/test_`, then the outputs of model `model1` in style `A` will be taken from `model1/outputs/test_A.pickle`
 * `--style-profile-dir`: a directory containing JSON files with reference style profiles; you can generate these using `python -m ismir2019_cifka.eval.style_profile`
