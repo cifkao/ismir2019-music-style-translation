@@ -4,6 +4,10 @@ This directory contains the pipelines for pre-processing MIDI files and saving t
 
 Before proceeding, install the Python code by following the steps in the [main README](../README.md#installation).
 
+## Bodhidharma data
+
+The `bodhidharma` directory contains the recipe for pre-processing the Bodhidharma test dataset. To run it, simply execute `./prepare.sh`; the dataset will be downloaded automatically.
+
 ## Parallel data
 
 The `parallel` directory contains the recipe for pre-processing the synthetic parallel data for training, validation and testing.
@@ -30,7 +34,3 @@ depending on your setup):
 
    The tracks are matched based on their name, but you can also use the program number.
    Run `python -m ismir2019_cifka.data.chop_midi -h` to see the available options.
-
-## Bodhidharma data
-
-The `bodhidharma` directory contains the recipe for pre-processing the Bodhidharma test dataset. To run it, simply execute `./prepare.sh`; the dataset will be downloaded automatically.
