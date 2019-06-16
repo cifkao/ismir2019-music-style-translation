@@ -6,7 +6,7 @@ The repository contains the following directories:
 - `experiments` – configuration files for the models from the paper and a script to download the trained model checkpoints.
 - `data` – data preparation recipes.
 
-You can either download the trained models (by running `./get_models.sh` in the `experiments` directory), or train your own by following the steps below.
+You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below.
 
 ## Installation
 
