@@ -73,12 +73,12 @@ python -m ismir2019_cifka.data.notes2midi \
 
 To reproduce the results on the Bodhidharma dataset, first [download the trained models](https://doi.org/10.5281/zenodo.3245374) and [prepare the dataset](data/README.md), then change to the `experiments` directory and run `./evaluate_bodhidharma.sh`. Note that this will run each model many times on the entire dataset (once for each target style), so you might want to start with only a subset of the models or styles or run a number of them in parallel. The results will be stored in the `results` subdirectory; use the [`evaluation.ipynb`](experiments/evaluation.ipynb) Jupyter notebook to load and plot them.
 
-To compute the metrics on your own data, use `python -m ismir2019_cifka.evaluate` directly. To better understand all the parameters, see how they are used in [`evaluate_bodhidharma.sh`](experiments/evaluate_bodhidharma.sh). The tricky ones are:
+To compute the metrics on your own data, use `python -m ismir2019_cifka.evaluate` directly. To better understand all the arguments, see how they are used in [`evaluate_bodhidharma.sh`](experiments/evaluate_bodhidharma.sh). The tricky ones are:
 
 * `--data-prefix`: where to look for the model outputs inside the model directory; for example, if you pass `--data-prefix outputs/test_`, then the outputs of model `model1` in style `A` will be taken from `model1/outputs/test_A.pickle`
 * `--style-profile-dir`: a directory containing JSON files with reference style profiles; you can generate these using `python -m ismir2019_cifka.eval.style_profile`
 
-Alternatively, you can import the metrics from the `ismir2019_cifka.eval` package and use them from your own code.
+Alternatively, you can import the evaluation metrics from the `ismir2019_cifka.eval` package and use them from your own code.
 
 ## Acknowledgment
 This work has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. 765068.
