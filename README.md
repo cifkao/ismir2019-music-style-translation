@@ -46,7 +46,7 @@ You may need to adjust the paths in `model.yaml` to point to your dataset.
 
 ## Running a model
 
-Before running a trained model on some MIDI files, we need to use the `chop_midi` script to chop them up into segments and save them in the expected format, e.g.:
+Before running a trained model on some MIDI files, we need to use the `chop_midi` script to chop them up into segments and save them in the expected format (see the [data README](data/README.md) for more information), e.g.:
 ```sh
 python -m ismir2019_cifka.data.chop_midi \
     --no-drums \
