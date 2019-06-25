@@ -8,6 +8,8 @@ The repository contains the following directories:
 
 You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below.
 
+Also, check out the [example outputs](http://tiny.cc/musicstyle).
+
 ## Installation
 
 Clone the repository and make sure you have Python 3.6 or later. Then run the following commands.
