@@ -4,7 +4,7 @@ This is the code for the paper ‘Supervised symbolic music style translation us
 > Ondřej Cífka, Umut Şimşekli, Gaël Richard. “Supervised Symbolic Music Style Translation Using Synthetic Data”, *20th International Society for Music Information Retrieval Conference*, Delft, The Netherlands, 2019.
 
 The repository contains the following directories:
-- `ismir2019_cifka` – code for training and evaluating models
+- `code` – code for training and evaluating models
 - `experiments` – configuration files for the models from the paper
 - `data` – data preparation recipes
 
@@ -29,9 +29,12 @@ Clone the repository and make sure you have Python 3.6 or later. Then run the fo
    If you wish to use different (more recent) package versions, you may skip this step; the code should still work.
 
 2. Install the package with:
-
    ```sh
-   pip install .
+   pip install './code[gpu]'
+   ```
+   Or for the non-GPU version (only if you skipped step 1):
+   ```sh
+   pip install './code[nogpu]'
    ```
 
 ## Data
