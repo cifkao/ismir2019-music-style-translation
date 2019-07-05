@@ -1,5 +1,5 @@
 # Supervised symbolic music style translation
-This is the code for the paper ‘Supervised symbolic music style translation using synthetic data’, accepted to ISMIR 2019. If you use the code in your research, please cite the paper as (assuming you publish yours after ISMIR 2019):
+This is the code for the paper [‘Supervised symbolic music style translation using synthetic data’](https://arxiv.org/abs/1907.02265), accepted to ISMIR 2019. If you use the code in your research, please cite the paper as (assuming you publish yours after ISMIR 2019):
 
 > Ondřej Cífka, Umut Şimşekli, Gaël Richard. “Supervised Symbolic Music Style Translation Using Synthetic Data”, *20th International Society for Music Information Retrieval Conference*, Delft, The Netherlands, 2019.
 
