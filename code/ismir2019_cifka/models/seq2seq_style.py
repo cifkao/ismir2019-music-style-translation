@@ -5,7 +5,6 @@ import os
 import pickle
 
 import coloredlogs
-import numpy as np
 import tensorflow as tf
 
 from museflow.components import EmbeddingLayer, RNNLayer, RNNDecoder

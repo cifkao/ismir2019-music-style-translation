@@ -5,7 +5,6 @@ import os
 import pickle
 
 import coloredlogs
-import numpy as np
 import tensorflow as tf
 
 from museflow.components import EmbeddingLayer, RNNLayer, RNNDecoder
@@ -22,9 +21,8 @@ from ismir2019_cifka.models.common import load_data
 LOGGER = logging.getLogger('ismir2019_cifka')
 
 
-@configurable(['embedding_layer', 'style_embedding_layer', 'style_projection', '2d_layers',
-               '1d_layers', 'encoder', 'state_projection', 'decoder', 'attention_mechanism',
-               'training'])
+@configurable(['embedding_layer', 'style_embedding_layer', '2d_layers', '1d_layers', 'encoder',
+               'state_projection', 'decoder', 'attention_mechanism', 'training'])
 class CNNRNNSeq2Seq:
 
     def __init__(self, dataset_manager, train_mode, vocabulary, style_vocabulary,
@@ -70,15 +68,9 @@ class CNNRNNSeq2Seq:
         embeddings = self._cfg['embedding_layer'].configure(
             EmbeddingLayer, input_size=len(vocabulary))
 
-        # If the style representation is sparse, we do embedding lookup, otherwise we apply
-        # a projection (a dense layer).
-        if self.style_id.dtype.is_integer:
-            style_layer = self._cfg['style_embedding_layer'].configure(
-                EmbeddingLayer, input_size=len(style_vocabulary), name='style_embedding')
-        else:
-            style_layer = self._cfg['style_projection'].configure(
-                tf.layers.Dense, name='style_projection')
-        self.style_vector = style_layer(self.style_id)
+        style_embeddings = self._cfg['style_embedding_layer'].configure(
+            EmbeddingLayer, input_size=len(style_vocabulary), name='style_embedding')
+        self.style_vector = style_embeddings.embed(self.style_id)
 
         def cell_wrap_fn(cell):
             """Wrap the RNN cell in order to pass the style embedding as input."""
