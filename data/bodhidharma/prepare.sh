@@ -20,14 +20,14 @@ if [[ ! -e "$src_dir" ]]; then
 fi
 [[ -e "$src_dir" ]] || die "$src_dir does not exist"
 
-# Fix the time signatures and filenames
+# Fix the key signatures and filenames
 dir=01_fixed
 mkdir "$dir" && {
   log "Found $(find -L "$src_dir" -type f | wc -l) files in $src_dir"
   find "$src_dir" | grep -Ei '\.mid$' | while read -r f; do
     fname="$(basename "$f" | sed -r 's/\.mid/.mid/i')"
     log_progress "$fname"
-    python -m ismir2019_cifka.data.fix_time_signatures "$f" "$dir/$fname"
+    python -m ismir2019_cifka.data.fix_key_signatures "$f" "$dir/$fname"
   done || die
   log
   log "Created $(find "$dir" -name '*.mid' | wc -l) files in $dir"

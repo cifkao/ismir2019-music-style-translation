@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fix signatures in a MIDI file to make it possible to load it with mido."""
+"""Fix key signatures in a MIDI file to make it possible to load it with mido."""
 
 import argparse
 import collections
