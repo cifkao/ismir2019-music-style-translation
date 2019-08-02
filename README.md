@@ -8,7 +8,7 @@ The repository contains the following directories:
 - `experiments` – configuration files for the models from the paper
 - `data` – data preparation recipes
 
-You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below.
+You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below. If you encounter any problems, please feel free to [open an issue](https://github.com/cifkao/ismir2019-music-style-translation/issues).
 
 Also, check out the [example outputs](http://tiny.cc/musicstyle).
 
