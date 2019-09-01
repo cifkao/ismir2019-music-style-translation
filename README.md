@@ -1,7 +1,9 @@
 # Supervised symbolic music style translation
-This is the code for the paper [‘Supervised symbolic music style translation using synthetic data’](https://arxiv.org/abs/1907.02265), accepted to ISMIR 2019. If you use the code in your research, please cite the paper as (assuming you publish yours after ISMIR 2019):
+This is the code for the paper [‘Supervised symbolic music style translation using synthetic data’](https://arxiv.org/abs/1907.02265), accepted to ISMIR 2019. If you use the code in your research, please cite the paper as (assuming that yours appears after ISMIR 2019):
 
 > Ondřej Cífka, Umut Şimşekli, Gaël Richard. “Supervised Symbolic Music Style Translation Using Synthetic Data”, *20th International Society for Music Information Retrieval Conference*, Delft, The Netherlands, 2019.
+
+Also, check out the [example outputs](http://tiny.cc/musicstyle) and the accompanying [blog post](https://ondrej.cifka.com/posts/neural-music-style-translation/), which summarizes the paper.
 
 The repository contains the following directories:
 - `code` – code for training and evaluating models
@@ -9,8 +11,6 @@ The repository contains the following directories:
 - `data` – data preparation recipes
 
 You can either [download](https://doi.org/10.5281/zenodo.3245374) the trained models, or train your own by following the steps below. If you encounter any problems, please feel free to [open an issue](https://github.com/cifkao/ismir2019-music-style-translation/issues).
-
-Also, check out the [example outputs](http://tiny.cc/musicstyle).
 
 ## Installation
 
