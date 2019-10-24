@@ -10,8 +10,8 @@ setuptools.setup(
         'scipy'
     ],
     extras_require={
-        'gpu': 'museflow[gpu] @ git+ssh://git@github.com/cifkao/museflow@001d7d70416f69565be4874ffe4771a693b9a57b',
-        'nogpu': 'museflow[nogpu] @ git+ssh://git@github.com/cifkao/museflow@001d7d70416f69565be4874ffe4771a693b9a57b',
+        'gpu': 'museflow[gpu] @ git+https://github.com/cifkao/museflow@001d7d70416f69565be4874ffe4771a693b9a57b',
+        'nogpu': 'museflow[nogpu] @ git+https://github.com/cifkao/museflow@001d7d70416f69565be4874ffe4771a693b9a57b',
     },
     packages=setuptools.find_packages()
 )
