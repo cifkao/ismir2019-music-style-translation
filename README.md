@@ -3,7 +3,7 @@ This is the code for the ISMIR 2019 paper [‘Supervised symbolic music style tr
 
 > Ondřej Cífka, Umut Şimşekli, Gaël Richard. “Supervised Symbolic Music Style Translation Using Synthetic Data”, *20th International Society for Music Information Retrieval Conference*, Delft, The Netherlands, 2019. [doi:10.5281/zenodo.3527878](https://doi.org/10.5281/zenodo.3527878).
 
-Also, check out the [example outputs](http://tiny.cc/musicstyle) and the accompanying [blog post](https://ondrej.cifka.com/posts/neural-music-style-translation/), which summarizes the paper.
+Check out the [:radio: example outputs](http://tiny.cc/musicstyle) and the accompanying [:memo: blog post](https://ondrej.cifka.com/posts/neural-music-style-translation/), which summarizes the paper. You might also be interested in our [more recent paper](https://hal.archives-ouvertes.fr/hal-02923548) [[:technologist: code](https://github.com/cifkao/groove2groove), [:earth_americas: website](https://groove2groove.telecom-paris.fr/)] on one-shot accompaniment style transfer.
 
 The repository contains the following directories:
 - `code` – code for training and evaluating models
